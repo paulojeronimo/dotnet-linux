@@ -1,0 +1,329 @@
+*.NET* Core (+ Node.js) *@Linux*
+================================
+Paulo Jerônimo, {localdate}
+:copyright: CC BY-SA 2.0
+:slidesurl: paulojeronimo.github.io/dotnet-linux
+:imagesdir: images
+:backend: dzslides
+:linkcss: true
+:dzslides-style: stormy
+:dzslides-transition: fade
+:dzslides-fonts: family=Yanone+Kaffeesatz:400,700,200,300&family=Cedarville+Cursive
+:dzslides-highlight: monokai
+:syntax: no-highlight
+
+:uri-asciidoc-e-asciidoctor: https://paulojeronimo.github.io/asciidoc-e-asciidoctor
+:asciidoc: http://www.methods.co.nz/asciidoc/[asciidoc]
+:DZSlides: http://paulrouget.com/dzslides/[DZSlides]
+:Tmux: https://tmux.github.io/[Tmux]
+:Vim: http://www.vim.org[Vim]
+:OmniSharp: http://www.omnisharp.net/[OmniSharp]
+:scaffolding: http://pt.stackoverflow.com/a/119735[Scaffolding]
+:GitHubPages: https://pages.github.com[GitHub Pages]
+:VirtualBox: https://virtualbox.org[VirtualBox]
+
+[{topic}]
+== {slidesurl}
+
+['qrcode', target='presentation-qrcode.png', size=20, alt='http://{slidesurl}', role='middle stretch-y', subs='attributes']
+----
+https://{slidesurl}
+----
+
+== \\
+
+[quote, Paulo Jerônimo]
+____
+Agora que eu *tenho um ambiente Linux para programar em .NET*: começarei a utilizá-lo?
+____
+
+== \\
+
+[quote, Paulo Jerônimo]
+____
+*O que justificaria*, além de "ser a tecnologia adotada pela empresa que paga meu salário", eu *programar em .NET ao invés de em Node.js?*
+____
+
+== \\
+
+[quote, Paulo Jerônimo]
+____
+Dá pra usar *.NET e Node.js juntos numa mesma aplicação?* *Como?* Quais são minhas *alternativas?*
+____
+
+== \\
+
+[{statement}]
+Nesta apresentação, e nas que farei a seguir, pretendo *descobrir respostas* para estas minhas perguntas.
+
+[{topic}]
+== Informações relevantes
+
+* https://www.linkedin.com/in/paulojeronimo[Eu], neste momento (setembro de 2016):
+** Ainda não possuo experiência em .NET, mas:
+*** Estou estudando sobre ele (e tecnologias relacionadas) através de cursos da https://www.codeschool.com/users/paulojeronimo/badges/639[Code School], da https://www.pluralsight.com/[Plural Sight] e da https://egghead.io/[egghead.io].
+** Tenho muita experiência em Linux (desde 1994), Java (desde 1998), JBoss (desde 2003) e Shell Script (desde 2007);
+** Possuo alguma experiência em Node.js (desde setembro/2015);
+*** Arquitetura (numa aplicação MEAN) e codificação (em outra);
+
+== \\
+
+image::changing-my-mind.jpg[caption=""]
+
+[{intro}]
+== *.NET Core* + *Node.js*?
+
+== \\
+
+[{statement}]
+A aplicação que será demonstrada é criada pelo https://www.npmjs.com/package/generator-aspnet[generator-aspnet] e baseada no https://github.com/aspnet/Templates[projeto ASP.NET Templates, da Microsoft].
+
+== \\
+
+[{statement}]
+O estudo dessa aplicação demonstra que essas tecnologias podem ser utilizadas de forma simultânea e complementar, como https://docs.asp.net/en/latest/client-side/[extensamente documentado nas páginas oficiais da Microsoft].
+
+== \\
+
+* *Tecnologias utilizadas* nessa aplicação:
+** https://nodejs.com[Node.js], e as seguintes ferramentas:
+*** https://yeoman.io[Yeoman]: {scaffolding}
+**** Leia mais: https://docs.asp.net/en/latest/client-side/yeoman.html
+*** https://gulpjs.com[Gulp]: gerenciamento do processo de build;
+**** Leia mais: https://docs.asp.net/en/latest/client-side/using-gulp.html
+*** https://bower.io[Bower]: gerenciamento dos componentes da camada cliente;
+**** Leia mais: https://docs.asp.net/en/latest/client-side/bower.html
+*** http://getbootstrap.com/[Bootstrap]: responsividade da camada cliente;
+**** Leia mais: https://docs.asp.net/en/latest/client-side/bootstrap.html
+** https://www.microsoft.com/net/core[.NET Core]
+*** Trata das camadas Model e Controller da aplicação, além de fazer a geração da View;
+
+[{intro}]
+== Criando o *ambiente*
+
+== \\
+
+* Nestes slides são detalhados os procedimentos para a *execução* direta no *Linux*;
+** O virtualizador escolhido é o {VirtualBox};
+** Poderia ser utilizado qualquer outro virtualizador: Hyper-V, VMware, Parallels, KVM, etc.
+* Uma próxima apresentação detalhará procedimentos para a *execução* via *Docker*;
+** Demonstrando, também, o uso do https://www.docker.com/products/docker-machine[Docker Machine];
+
+[{intro}]
+== *Execução* direta no *Linux*
+
+[{topic}]
+== Instalação do Ubuntu
+
+* Baixe o https://help.ubuntu.com/community/Lubuntu/GetLubuntu[Lubuntu] *16.04.1 (64 bits)*.
+** É *mais leve* que o https://ubuntu.com[Ubuntu] padrão!
+** Funciona do mesmo jeito, mas:
+*** Consome muito menos MB no download;
+*** Exige muito menos recursos (principalmente memória);
+*** Utiliza o http://lxde.org/pt-br/[LXDE];
+** Não utilizaremos a versão 32 bits porque, em próximas apresentações, instalaremos o *Docker* (que só roda em versões 64 bits)
+
+[{topic}]
+== Por que não no Fedora?
+
+* Se, assim como eu, você gostaria de utilizar o https://getfedora.org/[Fedora 24] saiba que:
+** Só há https://www.microsoft.com/net/core#fedora[suporte para o Fedora 23], na página .NET Core.
+** https://github.com/dotnet/cli/issues/2018#issuecomment-230124369[Até funciona (fazendo gatos)] ... mas ainda há https://github.com/dotnet/cli/issues/3717[issues abertas] pra resolver isso.
+
+[{topic}]
+== Instalação do Lubuntu
+
+* Instale o {VirtualBox}.
+** Configure a memória da máquina para 2 GB.
+* Instale o Lubuntu no VirtualBox.
+
+[{topic}]
+== Parênteses (Vagrant)
+
+* Daria pra utilizar o https://vagrantup.com[Vagrant]? Sim, com certeza!
+* Mas *aqui*, nesta apresentação, *os objetivos são*:
+** *Montar um ambiente* de desenvolvimento *completo e standalone*, utilizando apenas o Linux.
+*** Uma box Vagrant, geralmente, não oferece um ambiente gráfico.
+**** Ferramentas gráficas serão testadas em próximas apresentações.
+** *Testar e/ou configurar ferramentas* para desenvolvimento neste ambiente:
+*** https://code.visualstudio.com[Visual Studio Code]
+*** *Comparar* com o que já uso: {Tmux} + {Vim} (adicionando, agora, o {OmniSharp})
+
+[{topic}]
+== Instalação do VirtualBox Guest Additions
+
+* Instale o VirtualBox Guest Additions no Lubuntu para:
+** Ter as ferramentas de build (que serão utilizadas, também, pelo Node.js) instaladas;
+** Redimensionar a tela da VM;
+** Compartilhar diretórios com o teu Host;
+
+[{source}]
+== Instalação do VirtualBox Guest Additions
+
+* Acesse, no menu do VirtualBox: 'Devices/Insert Guest Additions CD image ...';
+* Abra um shell, vá para o diretório montado para o CD, execute:
+----
+$ sudo apt-get install -y build-essential module-assistant
+$ sudo ./VBoxLinuxAdditions.run
+$ sudo reboot
+----
+
+[{source}]
+== Instalação de ferramentas básicas
+
+* Execute:
+----
+$ sudo apt-get install -y unzip curl git
+----
+
+* Opcionalmente (se você utiliza tmux e vim), execute:
+----
+$ sudo apt-get install -y tmux vim
+----
+
+////
+[{source}]
+== Instalação do ttygif
+
+* Instalação e configuração do https://github.com/icholy/ttygif[ttygif]:
+----
+$ sudo apt-get install -y ttyrec imagemagick x11-app xdotool
+$ git clone https://github.com/icholy/ttygif.git
+$ cd ttygif/
+$ make
+$ sudo make install
+$ echo 'export WINDOWID=$(xdotool getwindowfocus)' >> ~/.bashrc
+$ source ~/.bashrc
+----
+
+[{source}]
+== Uso do ttygif
+
+* Grave uma sessão com o ttyrec (será gerado o arquivo `ttyrecord` no diretório corrente):
+----
+$ ttyrec
+----
+
+* Execute:
+----
+$ ttygif ttyrecord
+----
+////
+
+[{source}]
+== Instalação do Node.js
+
+* Execute:
+----
+$ sudo su -
+$ apt-get install -y nodejs npm
+$ ln -s /usr/bin/nodejs /usr/bin/node
+$ npm install -g n
+$ n stable
+$ npm install -g yo generator-aspnet
+$ exit
+----
+
+[{source}]
+== Verificação da instalação do Node.js
+
+* Execute:
+----
+$ node --version
+$ npm --version
+----
+
+[{source}]
+== Instalação do .NET Core
+
+* Execute:
+----
+$ sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+$ sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+$ sudo apt-get update -y
+$ sudo apt-get install -y dotnet-dev-1.0.0-preview2-003121
+----
+
+[{source}]
+== Verificação da instalação do .NET Core
+
+* Execute:
+----
+$ dotnet --version
+----
+
+[{source}]
+== Criando a aplicação (via Yeoman)
+
+* Execute (veja como informar os parâmetros no próximo slide):
+----
+$ yo aspnet
+----
+* Para aprender mais sobre esse {scaffolding}, leia:
+** https://docs.asp.net/en/latest/client-side/yeoman.html
+
+== \\
+
+image::yeoman.gif[caption=""]
+
+[{source}]
+== Compilando e colocando a aplicação em execução
+
+* Execute:
+----
+$ cd WebApplication/
+$ dotnet restore
+$ dotnet ef database update
+$ dotnet run
+----
+
+* Acesse, e navegue pela aplicação em, http://localhost:5000
+
+[{topic}]
+== Conclusões
+
+* Parece que *funciona!?*
+* Próximas *investigações*:
+** Como é a *utilização de ferramentas?*
+*** *Visual Studio Code?*
+*** *Tmux + Vim + OmniSharp?*
+** Como é *construir do zero* ("from scratch") uma nova aplicação?
+** Como fazer *comparativos de performance* de aplicações .NET e Node.js?
+
+[{topic}]
+== Próximas apresentações (*neste mesmo ambiente*)
+
+[{stepwise}]
+* *Usando ferramentas* no desenvolvimento .NET
+* *Desenvolvendo* num ambiente .NET *com o Docker*
+* *Construindo* uma aplicação .NET *"from scratch"*
+* *Praticando TDD e/ou BDD* em aplicações .NET
+* *Construindo uma API REST* através do .NET
+
+[{topic}]
+== Próximas apresentações (*neste mesmo ambiente*)
+
+* *Comparando uma mesma aplicação* escrita em .NET e em Node.js
+** Tempo de desenvolvimento
+** Performance da aplicação
+
+[{ending}, hrole="name"]
+== Fim! Grato pela atenção!
+
+[role="footer"]
+http://{slidesurl}
+
+[{recap-final}]
+== Ainda está aqui???
+
+* Estes slides são:
+** Escritos no {uri-asciidoc-e-asciidoctor}[formato AsciiDoc];
+** Escritos no editor de textos {Vim};
+** Tranformados em HTML, através de scripts Bash que:
+*** Invocam a execução do {asciidoc};
+*** Publicam os slides no {GitHubPages}. Fontes disponíveis:
+**** https://github.com/paulojeronimo/dotnet-ubuntu
+** Renderizados no formato de slides, pelo teu browser, através do {DZSlides};
+*** Para você visualizar até mesmo no teu smartphone;
+** Quer saber mais?
+*** https://paulojeronimo.github.io/asciidoc-dzslides-slides
