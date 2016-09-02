@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="aspect-4-3">
+  <head>
+    <meta charset="utf-8">
+    <title><strong>.NET</strong> Core (+ Node.js) <strong>@Linux</strong></title>
+    <meta name="author" content="Paulo Jerônimo, 2016-09-02">
+    <meta name="copyright" content="CC BY-SA 2.0">
+    <meta name="generator" content="AsciiDoc 8.6.9, dzslides backend. Code highlighting courtesy of highlight.js.">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,200,300&amp;family=Cedarville+Cursive">
+    <link rel="stylesheet" href="./dzslides/themes/highlight/monokai.css">
+    <link rel="stylesheet" href="./dzslides/themes/style/stormy.css">
+    <style>
+section:not(.topic) > h2 {
+  display: none;
+}
+    </style>
+    <!-- bug in full screen image if include dzslides.css before ours -->
+    <link rel="stylesheet" href="./dzslides/core/dzslides.css">
+    <link rel="stylesheet" href="./dzslides/themes/transition/fade.css">
+  </head>
+  <body>
+    <section class="title">
+      <h1><strong>.NET</strong> Core (+ Node.js) <strong>@Linux</strong></h1>
+      <footer>Paulo Jerônimo, 2016-09-02</footer>
+    </section>
+<section class="topic">
+<h2>paulojeronimo.github.io/dotnet-linux</h2>
+<img src="images/presentation-qrcode.png" alt="http://paulojeronimo.github.io/dotnet-linux" class="middle stretch-y">
+</section>
+<section>
+<blockquote>
+<p>Agora que eu <strong>tenho um ambiente Linux para programar em .NET</strong>: começarei a utilizá-lo?</p>
+<br><cite>Paulo Jerônimo</cite></blockquote>
+</section>
+<section>
+<blockquote>
+<p><strong>O que justificaria</strong>, além de "ser a tecnologia adotada pela empresa que paga meu salário", eu <strong>programar em .NET ao invés de em Node.js?</strong></p>
+<br><cite>Paulo Jerônimo</cite></blockquote>
+</section>
+<section>
+<blockquote>
+<p>Dá pra usar <strong>.NET e Node.js juntos numa mesma aplicação?</strong> <strong>Como?</strong> Quais são minhas <strong>alternativas?</strong></p>
+<br><cite>Paulo Jerônimo</cite></blockquote>
+</section>
+<section>
+<p class="statement">Nesta apresentação, e nas que farei a seguir, pretendo <strong>descobrir respostas</strong> para estas minhas perguntas.</p>
+</section>
+<section class="topic">
+<h2>Informações relevantes</h2>
+<ul>
+<li>
+<a href="https://www.linkedin.com/in/paulojeronimo">Eu</a>, neste momento (setembro de 2016):
+<ul>
+<li>
+Ainda não possuo experiência em .NET, mas:
+<ul>
+<li>
+Estou estudando sobre ele (e tecnologias relacionadas) através de cursos da <a href="https://www.codeschool.com/users/paulojeronimo/badges/639">Code School</a>, da <a href="https://www.pluralsight.com/">Plural Sight</a> e da <a href="https://egghead.io/">egghead.io</a>.
+</li>
+</ul>
+</li>
+<li>
+Tenho muita experiência em Linux (desde 1994), Java (desde 1998), JBoss (desde 2003) e Shell Script (desde 2007);
+</li>
+<li>
+Possuo alguma experiência em Node.js (desde setembro/2015);
+<ul>
+<li>
+Arquitetura (numa aplicação MEAN) e codificação (em outra);
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<figure>
+<img src="images/changing-my-mind.jpg" alt="changing-my-mind.jpg">
+<figcaption></figcaption></figure>
+</section>
+<section class="topic intro">
+<h2><strong>.NET Core</strong> + <strong>Node.js</strong>?</h2>
+</section>
+<section>
+<p class="statement">A aplicação que será demonstrada é criada pelo <a href="https://www.npmjs.com/package/generator-aspnet">generator-aspnet</a> e baseada no <a href="https://github.com/aspnet/Templates">projeto ASP.NET Templates, da Microsoft</a>.</p>
+</section>
+<section>
+<p class="statement">O estudo dessa aplicação demonstra que essas tecnologias podem ser utilizadas de forma simultânea e complementar, como <a href="https://docs.asp.net/en/latest/client-side/">extensamente documentado nas páginas oficiais da Microsoft</a>.</p>
+</section>
+<section>
+<ul>
+<li>
+<strong>Tecnologias utilizadas</strong> nessa aplicação:
+<ul>
+<li>
+<a href="https://nodejs.com">Node.js</a>, e as seguintes ferramentas:
+<ul>
+<li>
+<a href="https://yeoman.io">Yeoman</a>: <a href="http://pt.stackoverflow.com/a/119735">Scaffolding</a>
+<ul>
+<li>
+Leia mais: <a href="https://docs.asp.net/en/latest/client-side/yeoman.html">https://docs.asp.net/en/latest/client-side/yeoman.html</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="https://gulpjs.com">Gulp</a>: gerenciamento do processo de build;
+<ul>
+<li>
+Leia mais: <a href="https://docs.asp.net/en/latest/client-side/using-gulp.html">https://docs.asp.net/en/latest/client-side/using-gulp.html</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="https://bower.io">Bower</a>: gerenciamento dos componentes da camada cliente;
+<ul>
+<li>
+Leia mais: <a href="https://docs.asp.net/en/latest/client-side/bower.html">https://docs.asp.net/en/latest/client-side/bower.html</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="http://getbootstrap.com/">Bootstrap</a>: responsividade da camada cliente;
+<ul>
+<li>
+Leia mais: <a href="https://docs.asp.net/en/latest/client-side/bootstrap.html">https://docs.asp.net/en/latest/client-side/bootstrap.html</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="https://www.microsoft.com/net/core">.NET Core</a>
+<ul>
+<li>
+Trata das camadas Model e Controller da aplicação, além de fazer a geração da View;
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic intro">
+<h2>Criando o <strong>ambiente</strong></h2>
+</section>
+<section>
+<ul>
+<li>
+Nestes slides são detalhados os procedimentos para a <strong>execução</strong> direta no <strong>Linux</strong>;
+<ul>
+<li>
+O virtualizador escolhido é o <a href="https://virtualbox.org">VirtualBox</a>;
+</li>
+<li>
+Poderia ser utilizado qualquer outro virtualizador: Hyper-V, VMware, Parallels, KVM, etc.
+</li>
+</ul>
+</li>
+<li>
+Uma próxima apresentação detalhará procedimentos para a <strong>execução</strong> via <strong>Docker</strong>;
+<ul>
+<li>
+Demonstrando, também, o uso do <a href="https://www.docker.com/products/docker-machine">Docker Machine</a>;
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic intro">
+<h2><strong>Execução</strong> direta no <strong>Linux</strong></h2>
+</section>
+<section class="topic">
+<h2>Instalação do Ubuntu</h2>
+<ul>
+<li>
+Baixe o <a href="https://help.ubuntu.com/community/Lubuntu/GetLubuntu">Lubuntu</a> <strong>16.04.1 (64 bits)</strong>.
+<ul>
+<li>
+É <strong>mais leve</strong> que o <a href="https://ubuntu.com">Ubuntu</a> padrão!
+</li>
+<li>
+Funciona do mesmo jeito, mas:
+<ul>
+<li>
+Consome muito menos MB no download;
+</li>
+<li>
+Exige muito menos recursos (principalmente memória);
+</li>
+<li>
+Utiliza o <a href="http://lxde.org/pt-br/">LXDE</a>;
+</li>
+</ul>
+</li>
+<li>
+Não utilizaremos a versão 32 bits porque, em próximas apresentações, instalaremos o <strong>Docker</strong> (que só roda em versões 64 bits)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Por que não no Fedora?</h2>
+<ul>
+<li>
+Se, assim como eu, você gostaria de utilizar o <a href="https://getfedora.org/">Fedora 24</a> saiba que:
+<ul>
+<li>
+Só há <a href="https://www.microsoft.com/net/core#fedora">suporte para o Fedora 23</a>, na página .NET Core.
+</li>
+<li>
+<a href="https://github.com/dotnet/cli/issues/2018#issuecomment-230124369">Até funciona (fazendo gatos)</a> &#8230; mas ainda há <a href="https://github.com/dotnet/cli/issues/3717">issues abertas</a> pra resolver isso.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Instalação do Lubuntu</h2>
+<ul>
+<li>
+Instale o <a href="https://virtualbox.org">VirtualBox</a>.
+<ul>
+<li>
+Configure a memória da máquina para 2 GB.
+</li>
+</ul>
+</li>
+<li>
+Instale o Lubuntu no VirtualBox.
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Parênteses (Vagrant)</h2>
+<ul>
+<li>
+Daria pra utilizar o <a href="https://vagrantup.com">Vagrant</a>? Sim, com certeza!
+</li>
+<li>
+Mas <strong>aqui</strong>, nesta apresentação, <strong>os objetivos são</strong>:
+<ul>
+<li>
+<strong>Montar um ambiente</strong> de desenvolvimento <strong>completo e standalone</strong>, utilizando apenas o Linux.
+<ul>
+<li>
+Uma box Vagrant, geralmente, não oferece um ambiente gráfico.
+<ul>
+<li>
+Ferramentas gráficas serão testadas em próximas apresentações.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>Testar e/ou configurar ferramentas</strong> para desenvolvimento neste ambiente:
+<ul>
+<li>
+<a href="https://code.visualstudio.com">Visual Studio Code</a>
+</li>
+<li>
+<strong>Comparar</strong> com o que já uso: <a href="https://tmux.github.io/">Tmux</a> + <a href="http://www.vim.org">Vim</a> (adicionando, agora, o <a href="http://www.omnisharp.net/">OmniSharp</a>)
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Instalação do VirtualBox Guest Additions</h2>
+<ul>
+<li>
+Instale o VirtualBox Guest Additions no Lubuntu para:
+<ul>
+<li>
+Ter as ferramentas de build (que serão utilizadas, também, pelo Node.js) instaladas;
+</li>
+<li>
+Redimensionar a tela da VM;
+</li>
+<li>
+Compartilhar diretórios com o teu Host;
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic source">
+<h2>Instalação do VirtualBox Guest Additions</h2>
+<ul>
+<li>
+Acesse, no menu do VirtualBox: <em>Devices/Insert Guest Additions CD image &#8230;</em>;
+</li>
+<li>
+Abra um shell, vá para o diretório montado para o CD, execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ sudo apt-get install -y build-essential module-assistant
+$ sudo ./VBoxLinuxAdditions.run
+$ sudo reboot</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Instalação de ferramentas básicas</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ sudo apt-get install -y unzip curl git</code></pre>
+</div>
+<ul>
+<li>
+Opcionalmente (se você utiliza tmux e vim), execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ sudo apt-get install -y tmux vim</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Instalação do Node.js</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ sudo su -
+$ apt-get install -y nodejs npm
+$ ln -s /usr/bin/nodejs /usr/bin/node
+$ npm install -g n
+$ n stable
+$ npm install -g yo generator-aspnet
+$ exit</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Verificação da instalação do Node.js</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ node --version
+$ npm --version</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Instalação do .NET Core</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" &gt; /etc/apt/sources.list.d/dotnetdev.list'
+$ sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+$ sudo apt-get update -y
+$ sudo apt-get install -y dotnet-dev-1.0.0-preview2-003121</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Verificação da instalação do .NET Core</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ dotnet --version</code></pre>
+</div>
+</section>
+<section class="topic source">
+<h2>Criando a aplicação (via Yeoman)</h2>
+<ul>
+<li>
+Execute (veja como informar os parâmetros no próximo slide):
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ yo aspnet</code></pre>
+</div>
+<ul>
+<li>
+Para aprender mais sobre esse <a href="http://pt.stackoverflow.com/a/119735">Scaffolding</a>, leia:
+<ul>
+<li>
+<a href="https://docs.asp.net/en/latest/client-side/yeoman.html">https://docs.asp.net/en/latest/client-side/yeoman.html</a>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<figure>
+<img src="images/yeoman.gif" alt="yeoman.gif">
+<figcaption></figcaption></figure>
+</section>
+<section class="topic source">
+<h2>Compilando e colocando a aplicação em execução</h2>
+<ul>
+<li>
+Execute:
+</li>
+</ul>
+<div class="listing">
+<pre class="no-highlight"><code>$ cd WebApplication/
+$ dotnet restore
+$ dotnet ef database update
+$ dotnet run</code></pre>
+</div>
+<ul>
+<li>
+Acesse, e navegue pela aplicação em, <a href="http://localhost:5000">http://localhost:5000</a>
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Conclusões</h2>
+<ul>
+<li>
+Parece que <strong>funciona!?</strong>
+</li>
+<li>
+Próximas <strong>investigações</strong>:
+<ul>
+<li>
+Como é a <strong>utilização de ferramentas?</strong>
+<ul>
+<li>
+<strong>Visual Studio Code?</strong>
+</li>
+<li>
+<strong>Tmux + Vim + OmniSharp?</strong>
+</li>
+</ul>
+</li>
+<li>
+Como é <strong>construir do zero</strong> ("from scratch") uma nova aplicação?
+</li>
+<li>
+Como fazer <strong>comparativos de performance</strong> de aplicações .NET e Node.js?
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Próximas apresentações (<strong>neste mesmo ambiente</strong>)</h2>
+<ul class="incremental">
+<li>
+<strong>Usando ferramentas</strong> no desenvolvimento .NET
+</li>
+<li>
+<strong>Desenvolvendo</strong> num ambiente .NET <strong>com o Docker</strong>
+</li>
+<li>
+<strong>Construindo</strong> uma aplicação .NET <strong>"from scratch"</strong>
+</li>
+<li>
+<strong>Praticando TDD e/ou BDD</strong> em aplicações .NET
+</li>
+<li>
+<strong>Construindo uma API REST</strong> através do .NET
+</li>
+</ul>
+</section>
+<section class="topic">
+<h2>Próximas apresentações (<strong>neste mesmo ambiente</strong>)</h2>
+<ul>
+<li>
+<strong>Comparando uma mesma aplicação</strong> escrita em .NET e em Node.js
+<ul>
+<li>
+Tempo de desenvolvimento
+</li>
+<li>
+Performance da aplicação
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="topic ending">
+<h2 class="name">Fim! Grato pela atenção!</h2>
+<p class="footer"><a href="http://paulojeronimo.github.io/dotnet-linux">http://paulojeronimo.github.io/dotnet-linux</a></p>
+</section>
+<section class="topic recap final">
+<h2>Ainda está aqui???</h2>
+<ul>
+<li>
+Estes slides são:
+<ul>
+<li>
+Escritos no <a href="https://paulojeronimo.github.io/asciidoc-e-asciidoctor">formato AsciiDoc</a>;
+</li>
+<li>
+Escritos no editor de textos <a href="http://www.vim.org">Vim</a>;
+</li>
+<li>
+Tranformados em HTML, através de scripts Bash que:
+<ul>
+<li>
+Invocam a execução do <a href="http://www.methods.co.nz/asciidoc/">asciidoc</a>;
+</li>
+<li>
+Publicam os slides no <a href="https://pages.github.com">GitHub Pages</a>. Fontes disponíveis:
+<ul>
+<li>
+<a href="https://github.com/paulojeronimo/dotnet-ubuntu">https://github.com/paulojeronimo/dotnet-ubuntu</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+Renderizados no formato de slides, pelo teu browser, através do <a href="http://paulrouget.com/dzslides/">DZSlides</a>;
+<ul>
+<li>
+Para você visualizar até mesmo no teu smartphone;
+</li>
+</ul>
+</li>
+<li>
+Quer saber mais?
+<ul>
+<li>
+<a href="https://paulojeronimo.github.io/asciidoc-dzslides-slides">https://paulojeronimo.github.io/asciidoc-dzslides-slides</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+    <script src="./dzslides/core/dzslides.js"></script>
+    <script src="./dzslides/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
